@@ -1,16 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Data Repository</title>
+<title>Chalkboard Drawing</title>
+<style>
+body {
+  background-color: black;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+  border: 1px solid white;
+}
+
+.chalk {
+  stroke: white;
+  stroke-width: 2px;
+}
+
+.erase-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: red;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+</style>
 </head>
 <body>
-  <h1>Data Repository</h1>
-  <ul>
-    <li><a href="#">Data 1</a></li>
-    <li><a href="#">Data 2</a></li>
-    <li><a href="#">Data 3</a></li>
-  </ul>
+<canvas id="canvas"></canvas>
+<button class="erase-button">Erase</button>
+<script>
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+
+var drawing = false;
+
+function startDrawing() {
+  drawing = true;
+}
+
+function stopDrawing() {
+  drawing = false;
+}
+
+canvas.addEventListener("mousedown", startDrawing);
+canvas.addEventListener("mouseup", stopDrawing);
+
+canvas.addEventListener("mousemove", function(event) {
+  if (drawing) {
+    ctx.lineTo(event.clientX, event.clientY);
+    ctx.stroke();
+  }
+});
+
+var eraseButton = document.querySelector(".erase-button");
+
+eraseButton.addEventListener("click", function() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+});
+</script>
 </body>
 </html>
